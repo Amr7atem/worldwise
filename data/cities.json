@@ -1,18 +1,6 @@
 {
   "cities": [
     {
-      "cityName": "Lisbon",
-      "country": "Portugal",
-      "emoji": "🥠",
-      "date": "2027-10-31T15:59:59.138Z",
-      "notes": "My favorite city so far!",
-      "position": {
-        "lat": 38.727881642324164,
-        "lng": -9.140900099907554
-      },
-      "id": "73930385"
-    },
-    {
       "cityName": "Madrid",
       "country": "Spain",
       "emoji": "🐂",
@@ -35,72 +23,6 @@
         "lng": 13.376933665713324
       },
       "id": "62ed"
-    },
-    {
-      "id": "9f8b",
-      "cityName": "Idanha-a-Nova",
-      "country": "Portugal",
-      "date": "2024-06-20T22:04:00.157Z",
-      "notes": "asdasd",
-      "position": {
-        "lat": "39.960748209526635",
-        "lng": "-7.196044921875"
-      }
-    },
-    {
-      "id": "7958",
-      "cityName": "Lamzoudia",
-      "country": "Morocco",
-      "date": "2024-06-20T22:09:17.198Z",
-      "notes": "asdasd",
-      "position": {
-        "lat": "31.59300642496162",
-        "lng": "-8.574829101562502"
-      }
-    },
-    {
-      "id": "0c9f",
-      "cityName": "Ait Hammou",
-      "country": "Morocco",
-      "date": "2024-06-20T22:12:33.718Z",
-      "notes": "",
-      "position": {
-        "lat": "32.278101129082046",
-        "lng": "-8.261718750000002"
-      }
-    },
-    {
-      "id": "81a9",
-      "cityName": "Sidi Mohammed  Ben R",
-      "country": "Morocco",
-      "date": "2024-06-20T22:12:33.718Z",
-      "notes": "",
-      "position": {
-        "lat": "32.73678328791239",
-        "lng": "-7.745361328125001"
-      }
-    },
-    {
-      "id": "12c8",
-      "cityName": "Bouguedra",
-      "country": "Morocco",
-      "date": "2024-06-20T22:12:33.718Z",
-      "notes": "",
-      "position": {
-        "lat": "32.29703356099572",
-        "lng": "-9.030761718750002"
-      }
-    },
-    {
-      "id": "a5ee",
-      "cityName": "Agudo",
-      "country": "Spain",
-      "date": "2024-06-20T22:15:47.230Z",
-      "notes": "asdasd",
-      "position": {
-        "lat": "39.04452036558196",
-        "lng": "-4.768066406250001"
-      }
     }
   ]
 }
