@@ -1,25 +1,27 @@
 {
   "cities": [
     {
-      "id": "6963",
-      "cityName": "Almagro",
-      "country": "Spain",
-      "date": "2024-06-21T00:15:01.457Z",
-      "notes": "",
+      "id": "bdbc",
+      "cityName": "Gaza",
+      "country": "Palestine, State of",
+      "emoji": "PS",
+      "date": "2024-06-21T01:15:16.770Z",
+      "notes": "Gaza in our Hearts",
       "position": {
-        "lat": "38.960582326391986",
-        "lng": "-3.7353515625000004"
+        "lat": "31.507199774530374",
+        "lng": "34.45655822753907"
       }
     },
     {
-      "id": "a1c9",
-      "cityName": "Frossasco",
-      "country": "Italy",
-      "date": "2024-06-21T00:25:24.136Z",
-      "notes": "",
+      "id": "6b22",
+      "cityName": "Rafaḩ",
+      "country": "Palestine, State of",
+      "emoji": "PS",
+      "date": "2024-06-21T01:16:52.905Z",
+      "notes": "Free Palestine!",
       "position": {
-        "lat": "44.92635291195295",
-        "lng": "7.382812500000001"
+        "lat": "31.275180217759182",
+        "lng": "34.26498413085938"
       }
     }
   ]

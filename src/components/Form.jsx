@@ -1,25 +1,26 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
 import { useEffect, useState } from "react";
-
-import styles from "./Form.module.css";
-import Button from "./Button";
-import BackButton from "./BackButton";
-import { useUrlPosition } from "../hooks/useUrlPosition";
-import Message from "../components/Message";
-import Spinner from "../components/Spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useCities } from "../contexts/CitiesContex";
+
+import Button from "./Button";
+import BackButton from "./BackButton";
+
+import styles from "./Form.module.css";
+import { useUrlPosition } from "../hooks/useUrlPosition";
+import Message from "./Message";
+import Spinner from "./Spinner";
+import { useCities } from "../contexts/CitiesContext";
 import { useNavigate } from "react-router-dom";
 
-export function convertToEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt());
-  return String.fromCodePoint(...codePoints);
-}
+// export function convertToEmoji(countryCode) {
+//   const codePoints = countryCode
+//     .toUpperCase()
+//     .split("")
+//     .map((char) => 127397 + char.charCodeAt());
+//   return String.fromCodePoint(...codePoints);
+// }
 
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
@@ -33,7 +34,8 @@ function Form() {
   const [country, setCountry] = useState("");
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
-  const [goeCodingError, setGeoCodingError] = useState("");
+  const [emoji, setEmoji] = useState("");
+  const [geocodingError, setGeocodingError] = useState("");
 
   useEffect(
     function () {
@@ -42,21 +44,23 @@ function Form() {
       async function fetchCityData() {
         try {
           setIsLoadingGeocoding(true);
-          setGeoCodingError("");
+          setGeocodingError("");
 
           const res = await fetch(
             `${BASE_URL}?latitude=${lat}&longitude=${lng}`
           );
           const data = await res.json();
+
           if (!data.countryCode)
             throw new Error(
-              "That doesn't seem to be a city click somewhere else"
+              "That doesn't seem to be a city. Click somewhere else 😉"
             );
 
           setCityName(data.city || data.locality || "");
           setCountry(data.countryName);
+          setEmoji(data.countryCode);
         } catch (err) {
-          setGeoCodingError(err.message);
+          setGeocodingError(err.message);
         } finally {
           setIsLoadingGeocoding(false);
         }
@@ -74,6 +78,7 @@ function Form() {
     const newCity = {
       cityName,
       country,
+      emoji,
       date,
       notes,
       position: { lat, lng },
@@ -82,12 +87,13 @@ function Form() {
     await createCity(newCity);
     navigate("/app/cities");
   }
+
   if (isLoadingGeocoding) return <Spinner />;
 
   if (!lat && !lng)
-    return <Message message={"Start by clicking somewhere on the map"} />;
+    return <Message message="Start by clicking somewhere on the map" />;
 
-  if (goeCodingError) return <Message message={goeCodingError} />;
+  if (geocodingError) return <Message message={geocodingError} />;
 
   return (
     <form
@@ -101,7 +107,7 @@ function Form() {
           onChange={(e) => setCityName(e.target.value)}
           value={cityName}
         />
-        {/* <span className={styles.flag}>{emoji}</span> */}
+        <span className={styles.flag}>{emoji}</span>
       </div>
 
       <div className={styles.row}>
@@ -125,9 +131,7 @@ function Form() {
       </div>
 
       <div className={styles.buttons}>
-        <Button type="primary" onClick={handleSubmit}>
-          Add
-        </Button>
+        <Button type="primary">Add</Button>
         <BackButton />
       </div>
     </form>

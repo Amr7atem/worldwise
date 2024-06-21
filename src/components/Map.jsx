@@ -10,7 +10,7 @@ import {
 
 import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
-import { useCities } from "../contexts/CitiesContex";
+import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation.js";
 import Button from "../components/Button";
 import { useUrlPosition } from "../hooks/useUrlPosition.js";
