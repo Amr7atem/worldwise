@@ -19,7 +19,8 @@
     "react-dom": "^18.2.0",
     "react-flagkit": "^2.0.4",
     "react-leaflet": "^4.2.1",
-    "react-router-dom": "^6.23.1"
+    "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
