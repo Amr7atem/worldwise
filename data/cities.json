@@ -13,27 +13,39 @@
       }
     },
     {
-      "id": "6b22",
-      "cityName": "Rafaḩ",
-      "country": "Palestine, State of",
-      "emoji": "PS",
-      "date": "2024-06-21T01:16:52.905Z",
-      "notes": "Free Palestine!",
+      "id": "f4c5",
+      "cityName": "Zagazig",
+      "country": "Egypt",
+      "emoji": "EG",
+      "date": "2024-06-21T04:51:03.860Z",
+      "notes": "",
       "position": {
-        "lat": "31.275180217759182",
-        "lng": "34.26498413085938"
+        "lat": "30.579362512516976",
+        "lng": "31.505410075429378"
       }
     },
     {
-      "id": "b65a",
+      "id": "45cc",
       "cityName": "Cairo",
       "country": "Egypt",
       "emoji": "EG",
-      "date": "2024-06-21T04:20:02.054Z",
+      "date": "2024-06-21T04:51:18.466Z",
       "notes": "",
       "position": {
-        "lat": "29.998326106973416",
-        "lng": "31.25648319890414"
+        "lat": "30.041332756077757",
+        "lng": "31.23552002189134"
+      }
+    },
+    {
+      "id": "cb8d",
+      "cityName": "Madrid",
+      "country": "Spain",
+      "emoji": "ES",
+      "date": "2024-06-21T04:51:28.346Z",
+      "notes": "",
+      "position": {
+        "lat": "40.36377898124833",
+        "lng": "-3.6799958600307807"
       }
     }
   ]
