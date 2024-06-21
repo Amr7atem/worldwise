@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
+import supabase from "../../utils/supabase";
 
 const BASE_URL = "http://localhost:9000";
 
@@ -46,7 +47,7 @@ function reducer(state, action) {
       return { ...state, isLoading: false, error: action.payload };
 
     default:
-      throw new Error("Unkown action type");
+      throw new Error("Unknown action type");
   }
 }
 
@@ -56,19 +57,17 @@ function CitiesProvider({ children }) {
     initialState
   );
 
-  // const [cities, setCities] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [currentCity, setCurrentCity] = useState({});
-
   useEffect(function () {
     async function fetchCities() {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities`);
-        const data = await res.json();
+        let { data, error } = await supabase.from("cities").select("*");
+
+        if (error) throw error;
+
         dispatch({ type: "cities/loaded", payload: data });
-      } catch {
+      } catch (error) {
         dispatch({ type: "rejected", payload: "Error Loading cities" });
       }
     }
@@ -80,10 +79,16 @@ function CitiesProvider({ children }) {
 
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`);
-      const data = await res.json();
+      let { data, error } = await supabase
+        .from("cities")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) throw error;
+
       dispatch({ type: "city/loaded", payload: data });
-    } catch {
+    } catch (error) {
       dispatch({ type: "rejected", payload: "Error Loading the city" });
     }
   }
@@ -91,15 +96,17 @@ function CitiesProvider({ children }) {
   async function createCity(newCity) {
     dispatch({ type: "loading" });
     try {
-      const res = await fetch(`${BASE_URL}/cities`, {
-        method: "POST",
-        body: JSON.stringify(newCity),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await res.json();
+      let { data, error } = await supabase
+        .from("cities")
+        .insert([newCity])
+        .select("*")
+        .single();
+
+      if (error) throw error;
 
       dispatch({ type: "city/created", payload: data });
-    } catch {
+      return data; // Return the created city
+    } catch (error) {
       dispatch({ type: "rejected", payload: "Error adding city" });
     }
   }
@@ -108,11 +115,12 @@ function CitiesProvider({ children }) {
     dispatch({ type: "loading" });
 
     try {
-      await fetch(`${BASE_URL}/cities/${id}`, {
-        method: "DELETE",
-      });
+      let { error } = await supabase.from("cities").delete().eq("id", id);
+
+      if (error) throw error;
+
       dispatch({ type: "city/deleted", payload: id });
-    } catch {
+    } catch (error) {
       dispatch({ type: "rejected", payload: "Error deleting city" });
     }
   }

@@ -13,6 +13,7 @@ import Message from "./Message";
 import Spinner from "./Spinner";
 import { useCities } from "../contexts/CitiesContext";
 import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 // export function convertToEmoji(countryCode) {
 //   const codePoints = countryCode
@@ -76,12 +77,14 @@ function Form() {
     if (!cityName || !date) return;
 
     const newCity = {
+      id: uuidv4(),
       cityName,
       country,
       emoji,
       date,
       notes,
-      position: { lat, lng },
+      lat,
+      lng,
     };
 
     await createCity(newCity);

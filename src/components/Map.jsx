@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   MapContainer,
   TileLayer,
@@ -7,13 +6,14 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
-
-import styles from "./Map.module.css";
 import { useEffect, useState } from "react";
 import { useCities } from "../contexts/CitiesContext";
 import { useGeolocation } from "../hooks/useGeolocation.js";
 import Button from "../components/Button";
 import { useUrlPosition } from "../hooks/useUrlPosition.js";
+
+import styles from "./Map.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Map() {
   const { cities } = useCities();
@@ -27,20 +27,14 @@ function Map() {
 
   const [mapLat, mapLng] = useUrlPosition();
 
-  useEffect(
-    function () {
-      if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
-    },
-    [mapLat, mapLng]
-  );
+  useEffect(() => {
+    if (mapLat && mapLng) setMapPosition([mapLat, mapLng]);
+  }, [mapLat, mapLng]);
 
-  useEffect(
-    function () {
-      if (geoLocationPosition)
-        setMapPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
-    },
-    [geoLocationPosition]
-  );
+  useEffect(() => {
+    if (geoLocationPosition)
+      setMapPosition([geoLocationPosition.lat, geoLocationPosition.lng]);
+  }, [geoLocationPosition]);
 
   return (
     <div className={styles.mapContainer}>
@@ -51,7 +45,6 @@ function Map() {
       )}
       <MapContainer
         center={mapPosition}
-        // center={[mapLat, mapLng]}
         zoom={7}
         scrollWheelZoom={true}
         className={styles.map}
@@ -60,16 +53,15 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities.map((city) => (
-          <Marker
-            position={[city.position.lat, city.position.lng]}
-            key={city.id}
-          >
-            <Popup>
-              <span>{city.emoji}</span> <span>{city.cityName}</span>
-            </Popup>
-          </Marker>
-        ))}
+        {cities.map((city) =>
+          city && city.lat && city.lng ? (
+            <Marker position={[city.lat, city.lng]} key={city.id}>
+              <Popup>
+                <span>{city.emoji}</span> <span>{city.cityName}</span>
+              </Popup>
+            </Marker>
+          ) : null
+        )}
         <ChangeCenter position={mapPosition} />
         <DetectClick />
       </MapContainer>
@@ -87,8 +79,16 @@ function DetectClick() {
   const navigate = useNavigate();
 
   useMapEvents({
-    click: (e) => navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`),
+    click: (e) => {
+      if (e.latlng) {
+        navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+      } else {
+        console.error("Error: No latlng provided in map click event.");
+      }
+    },
   });
+
+  return null;
 }
 
 export default Map;
