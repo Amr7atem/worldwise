@@ -11,7 +11,7 @@ function User() {
     navigate("/");
   }
 
-  if (!user) return;
+  // if (!user) return;
 
   return (
     <div className={styles.user}>
