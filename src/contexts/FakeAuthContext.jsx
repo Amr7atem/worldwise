@@ -1,4 +1,5 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
+import supabase from "../../utils/supabase";
 
 const AuthContext = createContext();
 
@@ -20,32 +21,70 @@ function reducer(state, action) {
   }
 }
 
-const FAKE_USER = {
-  name: "Amr",
-  email: "amr@example.com",
-  password: "qwerty",
-  avatar: "/me.jpg",
-};
-
 function AuthProvider({ children }) {
   const [{ user, isAuthenticated }, dispatch] = useReducer(
     reducer,
     initialState
   );
 
-  function login(email, password) {
-    if (email === FAKE_USER.email && password === FAKE_USER.password) {
-      dispatch({ type: "login", payload: FAKE_USER });
-      return { success: true };
-    } else if (!email || !password) {
-      return { success: false, error: "Please Enter Both email and password" };
+  useEffect(() => {
+    async function checkSession() {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      if (session) {
+        dispatch({ type: "login", payload: session.user });
+      }
+    }
+
+    checkSession();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === "SIGNED_IN") {
+          dispatch({ type: "login", payload: session.user });
+        }
+        if (event === "SIGNED_OUT") {
+          dispatch({ type: "logout" });
+        }
+      }
+    );
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  async function login(email, password) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      return { success: false, error: error.message };
     } else {
-      return { success: false, error: "Invalid email or password" };
+      dispatch({ type: "login", payload: data.user });
+      return { success: true };
     }
   }
 
-  function logout() {
-    dispatch({ type: "logout" });
+  // async function signup(email, password) {
+  //   const { data, error } = await supabase.auth.signUp({ email, password });
+  //   if (error) {
+  //     return { success: false, error: error.message };
+  //   } else {
+  //     dispatch({ type: "login", payload: data.user });
+  //     return { success: true };
+  //   }
+  // }
+
+  async function logout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error logging out:", error.message);
+    } else {
+      dispatch({ type: "logout" });
+    }
   }
 
   return (

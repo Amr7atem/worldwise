@@ -1,8 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import supabase from "../../utils/supabase";
 
-const BASE_URL = "http://localhost:9000";
-
 const CitiesContext = createContext();
 
 const initialState = {
