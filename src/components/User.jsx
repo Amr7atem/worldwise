@@ -15,7 +15,7 @@ function User() {
 
   return (
     <div className={styles.user}>
-      <img src="../../public/me.jpg" alt={"img"} />
+      <img src="https://i.ibb.co/Tvg8XGY/me.jpg" alt={"img"} />
       <span>Welcome, Amr</span>
       <button onClick={handleClick}>Logout</button>
     </div>
